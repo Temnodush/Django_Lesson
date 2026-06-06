@@ -5,12 +5,12 @@
 __pycache__/
 local_settings.py
 db.sqlite3
-media/
 staticfiles/
 /.venv/
 venv/
 env/
 .venv/
+.env
 
 # IDE
 .idea/
