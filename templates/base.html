@@ -11,11 +11,7 @@
 <!-- ШАПКА -->
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
-    <nav class="ms-5">
-        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:home' %}">Главная</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product_list' %}">Каталог</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:contacts' %}">Контакты</a>
-    </nav>
+    {% include 'partials/_menu.html' %}
 </div>
 
 <!-- ОБЩИЙ КОНТЕЙНЕР ДЛЯ КОНТЕНТА И ФУТЕРА -->
@@ -57,6 +53,6 @@
     </footer>
 
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
