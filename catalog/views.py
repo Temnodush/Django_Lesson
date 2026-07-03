@@ -1,28 +1,48 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+
 from .models import Product
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from catalog.forms import ProductForm
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    context_object_name = 'product'
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:product_list')
 
 
-def home(request):
-    """Контроллер для главной страницы"""
-    products = Product.objects.all()[:3]
-    context = {'products': products}
-    return render(request, 'home.html', context)
+class HomeListView(ListView):
+    model = Product
+    template_name = 'catalog/home.html'
+    context_object_name = 'products'
 
-def contacts(request):
-    """Контроллер для страницы контактов"""
-    return render(request, 'contacts.html')
+    def get_queryset(self):
+        return Product.objects.all()[:3]
 
-def product_list(request):
-    products = Product.objects.all()
-    context = {
-        'products': products,
-    }
-    return render(request, 'product_list.html', context)
+class ContactsView(TemplateView):
+    template_name = 'catalog/contacts.html'
 
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/product_list.html'
+    context_object_name = 'products'
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {
-        'product': product,
-    }
-    return render(request, 'product_detail.html', context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/product_detail.html'
+    context_object_name = 'product'
+
