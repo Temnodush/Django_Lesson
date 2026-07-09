@@ -1,32 +1,49 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} — Skystore{% endblock %}
 
 {% block content %}
-<div class="card mb-3 p-2 shadow-sm rounded-5 bg-light">
-    {% if post.preview %}
-    <img src="{{ post.preview.url }}" class="d-block mx-auto rounded-5" style="width: 80%; max-height: 400px; object-fit: cover; " alt="...">
-    {% else %}
-    <img src="/media/default_images/not_found.png" class="d-block mx-auto rounded-5" style="width: 80%; max-height: 400px; object-fit: cover; " alt="...">
-    {% endif %}
-    <div class="card-body">
-    <h1 class="card-title">{{ post.title }}</h1>
-    <p class="card-text p-2">{{ post.content }}</p>
-    <p class="card-text"><small class="text-muted">Создано: {{ post.created_at }}</small></p>
-     <div class="d-flex gap-2 justify-content-center">
-    <a class="btn btn-primary" style="width: 200px;" href="{% url 'blogs:blogpost_list' %}">Назад</a>
-</div>
-</div>
-          <p class="p-2 text-end">
+<div class="container">
 
-                <img src="/media/icons/view_icon.svg" alt="иконка" style="width: 20px; height: 20px; margin-right: 5px;">
-                {{ post.views_count }} просмотров
-            </p>
-  </div>
+    <div class="text-center py-4">
+        <a href="{% url 'blogs:blogpost_list' %}" class="btn btn-outline-secondary btn-sm">← Назад к статьям</a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card custom-card shadow-sm">
+                {% if post.preview %}
+                    <img src="{{ post.preview.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 400px; object-fit: cover;">
+                {% else %}
+                    <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder" style="max-height: 400px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body">
+                    <h1 class="card-title mb-3 text-center">{{ post.title }}</h1>
+
+                    <div class="d-flex justify-content-between text-muted small mb-3">
+                        <span>Создано: {{ post.created_at|date:"d.m.Y H:i" }}</span>
+                        <span>
+                            <img src="/media/icons/view_icon.svg" alt="просмотры" style="width: 16px; height: 16px;">
+                            {{ post.views_count }} просмотров
+                        </span>
+                    </div>
+
+                    <hr>
+
+                    <p class="card-text">{{ post.content }}</p>
+
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+    <a href="{% url 'blogs:blogpost_list' %}" class="btn btn-primary">Назад к статьям</a>
+    <a href="{% url 'blogs:blogpost_update' post.pk %}" class="btn btn-outline-warning">Редактировать</a>
+    <a href="{% url 'blogs:blogpost_delete' post.pk %}" class="btn btn-outline-danger">Удалить</a>
 </div>
                 </div>
-              </div>
-          </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+</div>
 {% endblock %}
+
+

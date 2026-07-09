@@ -9,7 +9,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'username' ,'first_name','last_name', 'country' ,'phone_number', 'password1' , 'password2' ]
+        fields = ['email', 'username' ,'first_name','last_name', 'country' ,'phone_number', 'avatar' , 'password1' , 'password2' ]
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
@@ -20,54 +20,45 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
-        self.fields['password1'].label = 'Пароль'
-        self.fields['password1'].help_text = (
-            'Пароль должен содержать минимум 8 символов. '
-            'Не используйте простые пароли.'
-        )
+        # Общие настройки для всех полей
+        for field_name, field in self.fields.items():
+            if field.widget.__class__.__name__ == 'CheckboxInput':
+                field.widget.attrs.update({'class': 'form-check-input'})
+            elif field.widget.__class__.__name__ == 'Select':
+                field.widget.attrs.update({'class': 'form-select rounded-3'})
+            elif field.widget.__class__.__name__ == 'ClearableFileInput':
+                field.widget.attrs.update({'class': 'form-control rounded-3'})
+            else:
+                field.widget.attrs.update({'class': 'form-control rounded-3'})
 
-        self.fields['password2'].label = 'Подтверждение пароля'
-        self.fields['password2'].help_text = 'Введите пароль ещё раз для подтверждения.'
-
-        # Можно также изменить другие поля
+        # Кастомные placeholder и label
+        self.fields['email'].widget.attrs['placeholder'] = 'Введите email'
         self.fields['email'].label = 'Электронная почта'
-        self.fields['username'].label = 'Имя пользователя'
-        self.fields['first_name'].label = 'Имя'
-        self.fields['last_name'].label = 'Фамилия'
-        self.fields['country'].label = 'Страна'
-        self.fields['phone_number'].label = 'Номер телефона'
 
-        self.fields['email'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Введите почту'
-        })
-        self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Введите ваш логин'
-        })
-        self.fields['first_name'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Ваше имя'
-        })
-        self.fields['last_name'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Ваша фамилия'
-        })
-        self.fields['country'].widget.attrs.update({
-            'class': 'form-control',
-        })
-        self.fields['phone_number'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Введите имя'
-        })
-        self.fields['password1'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Введите пароль'
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Подтвердите пароль'
-        })
+        self.fields['username'].widget.attrs['placeholder'] = 'Введите логин'
+        self.fields['username'].label = 'Имя пользователя'
+
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Ваше имя'
+        self.fields['first_name'].label = 'Имя'
+
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Ваша фамилия'
+        self.fields['last_name'].label = 'Фамилия'
+
+        self.fields['country'].label = 'Страна'
+
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'Номер телефона'
+        self.fields['phone_number'].label = 'Телефон'
+
+        self.fields['avatar'].label = 'Аватар'
+
+        self.fields['password1'].widget.attrs['placeholder'] = 'Введите пароль'
+        self.fields['password1'].label = 'Пароль'
+        self.fields['password1'].help_text = 'Минимум 8 символов, не только цифры'
+
+        self.fields['password2'].widget.attrs['placeholder'] = 'Подтвердите пароль'
+        self.fields['password2'].label = 'Подтверждение пароля'
+        self.fields['password2'].help_text = ''
+
 
 class CustomAuthenticationForm(AuthenticationForm):
     """Стилизованная форма авторизации"""

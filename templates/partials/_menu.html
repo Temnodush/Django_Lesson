@@ -10,6 +10,10 @@
     {# Правая часть — авторизация #}
     <div class="d-flex align-items-center gap-2">
         {% if user.is_authenticated %}
+            <img src="{{ user.avatar.url }}"
+                 alt="Аватар"
+                 class="rounded-circle"
+                 style="width: 32px; height: 32px; object-fit: cover;">
             <span class="text-muted small">{{ user.email }}</span>
             <form method="post" action="{% url 'users:logout' %}" class="d-inline m-0">
                 {% csrf_token %}

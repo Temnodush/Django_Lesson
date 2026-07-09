@@ -4,95 +4,134 @@
 
 {% block content %}
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Skystore</h1>
-    <p class="lead">Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели продать</p>
+{# Hero секция #}
+<div class="text-center py-5 mb-4">
+    <h1 class="display-3 fw-bold text-primary">Skystore</h1>
+    <p class="lead text-muted col-lg-8 mx-auto">
+        Маркетплейс плагинов, ботов и готовых решений для вашего бизнеса.
+        Покупайте, продавайте и автоматизируйте!
+    </p>
 </div>
 
-<div class="row text-center">
+{# Тарифы / Услуги #}
+<div class="row g-4 mb-5">
+
     <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">$ 140</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>- Неограниченная лицензия</li>
-                    <li>- Поддержка</li>
-                    <li>- Установка на сервер</li>
-                    <li>- Получение обновлений</li>
+        <div class="card custom-card h-100 text-center">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3">
+                    <span class="display-6">📧</span>
+                </div>
+                <h5 class="card-title fw-bold">Сервис рассылок</h5>
+                <h2 class="text-primary fw-bold my-3">$140</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Неограниченная лицензия</li>
+                    <li class="mb-2">✓ Техподдержка</li>
+                    <li class="mb-2">✓ Установка на сервер</li>
+                    <li class="mb-2">✓ Бесплатные обновления</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                <button type="button" class="btn btn-primary mt-auto w-100">Купить</button>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Телеграм-боты</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">$ 90</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>- Готовые сценарии</li>
-                    <li>- Поддержка 24/7</li>
-                    <li>- Обновления</li>
+        <div class="card custom-card h-100 text-center border-primary">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3 mt-2">
+                    <span class="display-6">🤖</span>
+                </div>
+                <h5 class="card-title fw-bold">Телеграм-боты</h5>
+                <h2 class="text-primary fw-bold my-3">$90</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Готовые сценарии</li>
+                    <li class="mb-2">✓ Поддержка 24/7</li>
+                    <li class="mb-2">✓ Регулярные обновления</li>
+                    <li class="mb-2">✓ Документация</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                <button type="button" class="btn btn-primary mt-auto w-100">Купить</button>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-            <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Веб-приложения</h4>
-            </div>
-            <div class="card-body">
-                <h1 class="card-title pricing-card-title">$ 250</h1>
-                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <li>- Полный код</li>
-                    <li>- Документация</li>
-                    <li>- Деплой</li>
+        <div class="card custom-card h-100 text-center">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3">
+                    <span class="display-6">🌐</span>
+                </div>
+                <h5 class="card-title fw-bold">Веб-приложения</h5>
+                <h2 class="text-primary fw-bold my-3">$250</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Полный исходный код</li>
+                    <li class="mb-2">✓ Подробная документация</li>
+                    <li class="mb-2">✓ Помощь с деплоем</li>
+                    <li class="mb-2">✓ 30 дней поддержки</li>
                 </ul>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                <button type="button" class="btn btn-primary mt-auto w-100">Купить</button>
             </div>
         </div>
     </div>
+
 </div>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Лучшие предложения</h1>
-    <p class="lead">Ниже распологаются наши продукты с наивысшей оценкой и пользущиеся спросом</p>
-    <hr class="my-3 w-25 mx-auto border-2 border-secondary rounded">
+{# Разделитель #}
+<div class="text-center py-5">
+    <h2 class="display-5 fw-bold">Лучшие предложения</h2>
+    <p class="text-muted">Топовые продукты с высшей оценкой</p>
+    <hr class="w-25 mx-auto border-2 border-primary opacity-50">
 </div>
 
-<div class="row justify-content-center">
-        {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                {% else %}
-                <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder">
-                {% endif %}
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">
-                        {{ product.description|truncatechars:100 }}
-                    </p>
-                    <p class="card-text"><strong>Цена:</strong> {{ product.price }} $</p>
-                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary mt-auto d-block mx-auto" style="width: 120px;">
+{# Карточки товаров #}
+<div class="row g-4 justify-content-center">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card custom-card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top"
+                     alt="{{ product.name }}"
+                     style="height: 200px; object-fit: cover;">
+            {% else %}
+                <img src="/media/default_images/not_found.png"
+                     class="card-img-top"
+                     alt="Placeholder"
+                     style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                <p class="card-text text-muted small flex-grow-1">
+                    {{ product.description|truncatechars:100 }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="fs-5 fw-bold text-primary">{{ product.price }} $</span>
+                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary">
                         Подробнее
                     </a>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <h3 class="display-6 text-center">Упс, всё раскупили.</h3>
-        {% endfor %}
     </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <div class="text-muted">
+            <span class="display-1">📦</span>
+            <h4 class="mt-3">Товары скоро появятся</h4>
+            <p>Мы работаем над пополнением каталога</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{# Призыв к действию #}
+<div class="text-center py-5 mt-4">
+    <div class="card custom-card p-5">
+        <h3 class="fw-bold mb-3">Хотите продавать свои продукты?</h3>
+        <p class="text-muted mb-4">Присоединяйтесь к нашей платформе и начните зарабатывать уже сегодня</p>
+        <div>
+            <a href="{% url 'users:register' %}" class="btn btn-primary btn-lg px-5">Начать</a>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

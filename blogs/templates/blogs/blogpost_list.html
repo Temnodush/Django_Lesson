@@ -1,80 +1,50 @@
 {% extends 'base.html' %}
 
-{% block title %}Список статей{% endblock %}
+{% block title %}Блог — Skystore{% endblock %}
 
 {% block content %}
-<div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Список статей</h1>
-    <a class="p-2 btn btn-outline-primary" href="{% url 'blogs:blogpost_create' %}">
-        Управление статьями
-    </a>
-</div>
+<div class="container">
 
-{% for post in posts %}
-<div class="container mb-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8 rounded-start">
-            <div class="card h-100 shadow-sm border-0">
+    <div class="text-center py-5">
+        <h1 class="display-5 fw-bold">Блог</h1>
+        <p class="text-muted">Статьи и новости</p>
+        <a href="{% url 'blogs:blogpost_create' %}" class="btn btn-primary">Управление статьями</a>
+    </div>
 
-                {% if post.preview %}
-                    <div class="p-3"
-                         style="height: 360px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                        <img src="{{ post.preview.url }}"
-                             style="height: 100%; width: auto; object-fit: cover; border-radius: 8px;"
-                             alt="{{ post.title }}">
+    <div class="row g-4">
+        {% for post in posts %}
+        <div class="col-lg-8 mx-auto">
+            <div class="card custom-card shadow-sm mb-4">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if post.preview %}
+                            <img src="{{ post.preview.url }}" class="img-fluid rounded-start h-100" alt="{{ post.title }}" style="object-fit: cover;">
+                        {% else %}
+                            <img src="/media/default_images/not_found.png" class="img-fluid rounded-start h-100" alt="Placeholder" style="object-fit: cover;">
+                        {% endif %}
                     </div>
-                {% else %}
-                    <div class="p-3"
-                         style="height: 360px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                        <img src="/media/default_images/not_found.png"
-                             style="height: 100%; width: auto; object-fit: cover; border-radius: 8px;"
-                             alt="Placeholder">
+                    <div class="col-md-8">
+                        <div class="card-body d-flex flex-column h-100">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text text-muted small">{{ post.content|truncatechars:150 }}</p>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <a href="{% url 'blogs:blogpost_detail' post.pk %}" class="btn btn-outline-primary btn-sm">Читать</a>
+                                <small class="text-muted">
+                                    <img src="/media/icons/view_icon.svg" alt="просмотры" style="width: 16px; height: 16px;">
+                                    {{ post.views_count }}
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                {% endif %}
-
-                <div class="card-body d-flex flex-column">
-
-                    <h2 class="h4 text-center mb-3">{{ post.title }}</h2>
-
-                    <p class="card-text">
-                        {{ post.content|truncatechars:250 }}
-                    </p>
-
-                    {% if post.content|length > 100 %}
-                        <p class="card-text text-center text-muted mb-3">
-                            <small>Продолжение — в полной статье</small>
-                        </p>
-                    {% endif %}
-
-                    {# Кнопка "Подробнее" и счётчик просмотров #}
-                    <div class="d-flex justify-content-between align-items-center mt-2 mb-3">
-                        <a class="btn btn-outline-primary "
-                           href="{% url 'blogs:blogpost_detail' post.pk %}">
-                            Подробнее
-                        </a>
-                        <span class="text-muted small">
-                            <img src="/media/icons/view_icon.svg"
-                                 alt="иконка"
-                                 style="width: 18px; height: 18px; margin-right: 4px;">
-                            {{ post.views_count }} просмотров
-                        </span>
-                    </div>
-
-                    <div class="mt-auto pt-3 border-top text-center">
-                        <a class="btn btn-outline-danger btn-sm px-4"
-                           href="{% url 'blogs:blogpost_delete' post.pk %}">
-                            Удалить статью
-                        </a>
-                    </div>
-
                 </div>
             </div>
         </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">Статей пока нет</p>
+        </div>
+        {% endfor %}
     </div>
+
 </div>
-{% empty %}
-<div class="container">
-    <h1 class="display-4 text-center">Статей пока нет.</h1>
-</div>
-{% endfor %}
 {% endblock %}

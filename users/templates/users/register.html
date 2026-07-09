@@ -9,133 +9,55 @@
     }
 </style>
 
-<div class="auth-overlay">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
 
-                    <div class="auth-header-gradient p-4 text-center">
-                        <h3 class="text-white mb-0 fw-semibold">Регистрация</h3>
-                    </div>
-
-                    <div class="card-body p-4">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
-
-                            {% if form.errors %}
-                                <div class="alert alert-danger py-2">
-                                    Пожалуйста, исправьте ошибки ниже
-                                </div>
-                            {% endif %}
-
-                            <div class="mb-3">
-                                <input type="email"
-                                       name="email"
-                                       class="form-control rounded-3 {% if form.email.errors %}is-invalid{% endif %}"
-                                       placeholder="Email"
-                                       value="{{ form.email.value|default:'' }}"
-                                       required>
-                                {% if form.email.errors %}
-                                    <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="mb-3">
-                                <input type="text"
-                                       name="username"
-                                       class="form-control rounded-3 {% if form.username.errors %}is-invalid{% endif %}"
-                                       placeholder="Имя пользователя"
-                                       value="{{ form.username.value|default:'' }}"
-                                       required>
-                                {% if form.username.errors %}
-                                    <div class="invalid-feedback">{{ form.username.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <input type="text"
-                                           name="first_name"
-                                           class="form-control rounded-3"
-                                           placeholder="Имя"
-                                           value="{{ form.first_name.value|default:'' }}">
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <input type="text"
-                                           name="last_name"
-                                           class="form-control rounded-3"
-                                           placeholder="Фамилия"
-                                           value="{{ form.last_name.value|default:'' }}">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <select name="country" class="form-select rounded-3">
-                                        <option value="">Страна</option>
-                                        {% for value, label in form.country.field.choices %}
-                                            {% if value %}
-                                                <option value="{{ value }}" {% if form.country.value == value %}selected{% endif %}>
-                                                    {{ label }}
-                                                </option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <input type="tel"
-                                           name="phone_number"
-                                           class="form-control rounded-3 {% if form.phone_number.errors %}is-invalid{% endif %}"
-                                           placeholder="Телефон"
-                                           value="{{ form.phone_number.value|default:'' }}">
-                                    {% if form.phone_number.errors %}
-                                        <div class="invalid-feedback">{{ form.phone_number.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <hr class="my-3">
-
-                            <div class="mb-3">
-                                <input type="password"
-                                       name="password1"
-                                       class="form-control rounded-3 {% if form.password1.errors %}is-invalid{% endif %}"
-                                       placeholder="Пароль"
-                                       required>
-                                <div class="form-text">Минимум 8 символов, не только цифры</div>
-                                {% if form.password1.errors %}
-                                    <div class="invalid-feedback d-block">{{ form.password1.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="mb-4">
-                                <input type="password"
-                                       name="password2"
-                                       class="form-control rounded-3 {% if form.password2.errors %}is-invalid{% endif %}"
-                                       placeholder="Подтвердите пароль"
-                                       required>
-                                {% if form.password2.errors %}
-                                    <div class="invalid-feedback">{{ form.password2.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg rounded-3">
-                                    Зарегистрироваться
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="card-footer bg-light text-center py-3 border-0">
-                        <span class="text-muted">Уже есть аккаунт?</span>
-                        <a href="{% url 'users:login' %}" class="text-decoration-none fw-semibold">
-                            Войдите
-                        </a>
-                    </div>
-
+                <div class="auth-header-gradient p-4 text-center">
+                    <h3 class="text-white mb-0 fw-semibold">Регистрация</h3>
                 </div>
+
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger py-2">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <div class="form-text">{{ field.help_text }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-3">
+                                Зарегистрироваться
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light text-center py-3 border-0">
+                    <span class="text-muted">Уже есть аккаунт?</span>
+                    <a href="{% url 'users:login' %}" class="text-decoration-none fw-semibold">
+                        Войдите
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

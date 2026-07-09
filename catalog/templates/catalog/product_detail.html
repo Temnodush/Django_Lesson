@@ -3,59 +3,38 @@
 {% block title %}{{ product.name }} — Skystore{% endblock %}
 
 {% block content %}
-<div class="container mt-1">
+<div class="container">
 
-    <div class="d-flex justify-content-center mb-3">
-        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary">
-            ← Назад к товарам
-        </a>
+    <div class="text-center py-4">
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary btn-sm">← Назад к каталогу</a>
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-7">
-            <div class="card shadow-sm rounded-5" style="background-color: #E9ECEF;">
+        <div class="col-lg-8">
+            <div class="card custom-card shadow-sm">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="max-height: 400px; object-fit: cover;">
+                {% else %}
+                    <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder" style="max-height: 400px; object-fit: cover;">
+                {% endif %}
 
                 <div class="card-body">
+                    <h1 class="card-title text-center mb-3">{{ product.name }}</h1>
 
-                    {% if product.image %}
-                        <div class="mb-3 text-center">
-                            <img src="{{ product.image.url }}"
-                                 alt="{{ product.name }}"
-                                 class="img-fluid rounded"
-                                 style="max-height: 350px; object-fit: cover;">
-                        </div>
-                    {% else %}
-                <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder">
-                    {% endif %}
-
-                    <h2 class="card-title text-center mb-2">{{ product.name }}</h2>
-
-                    <p class="text-center text-muted mb-1">
-                        Категория: {{ product.category.name }}
-                    </p>
-
-                    <p class="text-center fw-bold mb-3">
-                        Цена: {{ product.price }} $
-                    </p>
-
-                    <hr class="mb-3">
-
-                    <p class="card-text">
-                        {{ product.description }}
-                    </p>
-
-                    <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg">
-                            Заказать
-                        </button>
-                        <a class="btn btn-outline-warning btn-lg" href="{% url 'catalog:product_update' product.pk %}">
-                         Изменить
-                        </a>
-                        <a class="btn btn-danger btn-lg" href="{% url 'catalog:product_confirm_delete' product.pk %}">
-                         Удалить
-                        </a>
+                    <div class="text-center mb-3">
+                        <span class="badge bg-secondary">{{ product.category.name }}</span>
+                        <span class="badge bg-primary fs-6 ms-2">{{ product.price }} $</span>
                     </div>
 
+                    <hr>
+
+                    <p class="card-text">{{ product.description }}</p>
+
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button class="btn btn-primary">Заказать</button>
+                        <a class="btn btn-outline-secondary" href="{% url 'catalog:product_update' product.pk %}">Изменить</a>
+                        <a class="btn btn-outline-danger" href="{% url 'catalog:product_confirm_delete' product.pk %}">Удалить</a>
+                    </div>
                 </div>
             </div>
         </div>
