@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактор статей{% endblock %}
+
+{% block content %}
+<div class="container py-5 p-2">
+<a class="p-2 btn btn-outline-primary w-25 d-block mx-auto mb-2" href="{% url 'blogs:blogpost_list' %}">Назад</a>
+<a class="p-2 btn btn-warning w-25 d-block mx-auto" href="{% url 'blogs:blogpost_draft_list' %}">Неопубликованные статьи</a>
+    <div class="row justify-content-center p-4">
+
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-header text-center py-3">
+                    <h3 class="mb-0">
+  <h1>Создание статьи</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="p-2 btn btn-outline-primary" type="submit">Сохранить</button>
+
+  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

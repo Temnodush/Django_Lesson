@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Черновики{% endblock %}
+
+{% block content %}
+
+<h3 class="display-4 text-center">Черновики статей</h3>
+<a class="p-2 btn btn-outline-primary w-25 d-block mx-auto mb-4" href="{% url 'blogs:blogpost_list' %}">Назад</a>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% for post in posts %}
+            <div class="col-12">
+                <div class="card mb-3 w-100">
+                    <div class="row g-0">
+                        <!-- Левая колонка для изображения -->
+                        <div class="col-md-4">
+                            {% if post.preview %}
+                                <div class="p-3" style="height: 200px; overflow: hidden; border-radius: 8px 0 0 8px;">
+                                    <img src="{{ post.preview.url }}"
+                                         class="w-100 h-100 object-fit-cover"
+                                         alt="{{ post.title }}">
+                                </div>
+
+                            {% else %}
+                                <div class="p-3" style="height: 200px; overflow: hidden; border-radius: 8px 0 0 8px;">
+                                    <img src="/media/default_images/not_found.png"
+                                         class="w-100 h-100 object-fit-cover"
+                                         alt="Placeholder">
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Правая колонка с текстом -->
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.content|truncatechars:250 }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">Создано: {{ post.created_at }}</small>
+                                </p>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#publishModal-{{ post.pk }}">Опубликовать</button>
+                                    <a href="{% url 'blogs:blogpost_update' post.pk %}" class="btn btn-warning">Редактировать</a>
+                                    <!-- Кнопка удаления – открывает модалку -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ post.pk }}">
+                                        Удалить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- конец карточки -->
+
+                <!-- Подтверждение удаления -->
+                <div class="modal fade" id="deleteModal-{{ post.pk }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Подтверждение удаления</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Вы уверены, что хотите удалить пост <strong>"{{ post.title }}"</strong>?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                <!-- Форма для отправки POST-запроса на удаление -->
+                                <form method="post" action="{% url 'blogs:blogpost_delete' post.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Да, удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- конец колонки -->
+
+        <div class="modal fade" id="publishModal-{{ post.pk }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтверждение публикации</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите опубликовать пост <strong>"{{ post.title }}"</strong>?</p>
+                <p class="text-muted">После публикации пост станет виден всем пользователям.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form method="post" action="{% url 'blogs:blogpost_publish' post.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Да, опубликовать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+        {% empty %}
+            <div class="col-12 text-center">
+                <h4 class="text-muted">Черновиков нет.</h4>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
