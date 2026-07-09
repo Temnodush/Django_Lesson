@@ -1,5 +1,4 @@
 from django.db import models
-from parso.python.tree import Class
 
 from users.models import CustomUser
 
@@ -31,10 +30,9 @@ class Category(models.Model):
 
 class Product(models.Model):
     STATUS_CHOICES = [
-        ('OK','Опубликовано'),
-        ('RE', 'Не прошло модерацию'),
-        ('MD', 'Проходит модерацию'),
-        ('NO', 'Не опубликовано'),
+        ('OK','✅ Опубликовано'),
+        ('MD', '⏱️ Проходит модерацию'),
+        ('NO', '❌ Не опубликовано'),
     ]
 
     name = models.CharField(max_length=150 , verbose_name="Наименование")
@@ -43,7 +41,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE , verbose_name="Категория")
     price = models.IntegerField(verbose_name="Цена")
     publish_status = models.CharField(max_length=2, choices=STATUS_CHOICES, blank=True, null=True, default='NO')
-    owner = models.ForeignKey(CustomUser)
+    owner = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Автор", related_name="products")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,6 +54,6 @@ class Product(models.Model):
         verbose_name_plural = 'продукты'
         ordering = ['name']
         permissions = [
-            ('can_unpublish', 'Can unpublish product'),
+            ('can_unpublish_product', 'Can unpublish product'),
         ]
 

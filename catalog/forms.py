@@ -13,13 +13,13 @@ FORBIDDEN_WORDS = [
     'обман',
     'полиция',
     'радар',
-    ]
+]
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'category' , 'price', 'image',]
-
+        fields = ['name', 'description', 'category', 'price', 'image']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
@@ -44,7 +44,7 @@ class ProductForm(forms.ModelForm):
         if price is None:
             raise forms.ValidationError("Укажите цену товара.")
         if price <= 0:
-            raise forms.ValidationError("Цена не может равняться 0 или быть отрицательным.")
+            raise forms.ValidationError("Цена не может равняться 0 или быть отрицательной.")
         return price
 
     def clean_image(self):
@@ -55,7 +55,7 @@ class ProductForm(forms.ModelForm):
         allowed_exts = ('.jpg', '.jpeg', '.png')
         if ext not in allowed_exts:
             raise forms.ValidationError("Допустимые форматы изображения: JPEG и PNG.")
-        max_size = 5 * 1024 * 1024  # 5MB
+        max_size = 5 * 1024 * 1024
         if image.size > max_size:
             raise forms.ValidationError("Размер файла не должен превышать 5 МБ.")
         return image
@@ -65,12 +65,11 @@ class ProductForm(forms.ModelForm):
 
         self.fields['name'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Введите имя'
+            'placeholder': 'Введите название'
         })
         self.fields['category'].empty_label = 'Выберите категорию'
         self.fields['category'].widget.attrs.update({
-            'class': 'form-control',
-            'placeholder': 'Категория товара'
+            'class': 'form-select',
         })
         self.fields['description'].widget.attrs.update({
             'class': 'form-control',
@@ -83,3 +82,20 @@ class ProductForm(forms.ModelForm):
         self.fields['image'].widget.attrs.update({
             'class': 'form-control',
         })
+
+
+class ModerateProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['publish_status']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['publish_status'].widget = forms.Select(
+            choices=[
+                ('OK', 'Одобрить публикацию'),
+                ('NO', 'Отклонить'),
+            ],
+            attrs={'class': 'form-select'}
+        )
+        self.fields['publish_status'].label = 'Решение'

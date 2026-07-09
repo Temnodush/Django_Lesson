@@ -29,11 +29,18 @@
                     <hr>
 
                     <p class="card-text">{{ product.description }}</p>
-
+                    <p class="text-muted">Опубликовал: {{product.owner.username}} </p>
+                    {% if perms.catalog.can_unpublish_product %}
+                    <p class="text-muted">Статус публикации: {{product.get_publish_status_display}} </p>
+                    {% endif %}
                     <div class="d-flex justify-content-center gap-2 mt-4">
                         <button class="btn btn-primary">Заказать</button>
+                        {% if user == product.owner or perms.catalog.can_unpublish_product %}
                         <a class="btn btn-outline-secondary" href="{% url 'catalog:product_update' product.pk %}">Изменить</a>
+                        {% endif %}
+                        {% if user == product.owner or perms.catalog.delete_product %}
                         <a class="btn btn-outline-danger" href="{% url 'catalog:product_confirm_delete' product.pk %}">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

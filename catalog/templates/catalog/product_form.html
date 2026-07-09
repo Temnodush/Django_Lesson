@@ -17,7 +17,7 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <div class="d-flex justify-content-center gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            <button type="submit" class="btn btn-primary">Отправить на модерацию</button>
                             <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary">Отмена</a>
                         </div>
                     </form>
