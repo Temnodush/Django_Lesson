@@ -1,28 +1,58 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+
 from .models import Product
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from catalog.forms import ProductForm
+
+class ProductCreateView(LoginRequiredMixin ,CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:product_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
+    context_object_name = 'product'
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:product_list')
 
 
-def home(request):
-    """Контроллер для главной страницы"""
-    products = Product.objects.all()[:3]
-    context = {'products': products}
-    return render(request, 'home.html', context)
 
-def contacts(request):
-    """Контроллер для страницы контактов"""
-    return render(request, 'contacts.html')
+class HomeListView(ListView):
+    model = Product
+    template_name = 'catalog/home.html'
+    context_object_name = 'products'
 
-def product_list(request):
-    products = Product.objects.all()
-    context = {
-        'products': products,
-    }
-    return render(request, 'product_list.html', context)
+    def get_queryset(self):
+        return Product.objects.all()[:3]
 
+class ContactsView(TemplateView):
+    template_name = 'catalog/contacts.html'
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {
-        'product': product,
-    }
-    return render(request, 'product_detail.html', context)
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/product_list.html'
+    context_object_name = 'products'
+
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    model = Product
+    template_name = 'catalog/product_detail.html'
+    context_object_name = 'product'
+

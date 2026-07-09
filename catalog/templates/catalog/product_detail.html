@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} — Skystore{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="text-center py-4">
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary btn-sm">← Назад к каталогу</a>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card custom-card shadow-sm">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="max-height: 400px; object-fit: cover;">
+                {% else %}
+                    <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder" style="max-height: 400px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-3">{{ product.name }}</h1>
+
+                    <div class="text-center mb-3">
+                        <span class="badge bg-secondary">{{ product.category.name }}</span>
+                        <span class="badge bg-primary fs-6 ms-2">{{ product.price }} $</span>
+                    </div>
+
+                    <hr>
+
+                    <p class="card-text">{{ product.description }}</p>
+
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button class="btn btn-primary">Заказать</button>
+                        <a class="btn btn-outline-secondary" href="{% url 'catalog:product_update' product.pk %}">Изменить</a>
+                        <a class="btn btn-outline-danger" href="{% url 'catalog:product_confirm_delete' product.pk %}">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
