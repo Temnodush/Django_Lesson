@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная — Skystore{% endblock %}
+
+{% block content %}
+
+{# Hero секция #}
+<div class="text-center py-5 mb-4">
+    <h1 class="display-3 fw-bold text-primary">Skystore</h1>
+    <p class="lead text-muted col-lg-8 mx-auto">
+        Маркетплейс плагинов, ботов и готовых решений для вашего бизнеса.
+        Покупайте, продавайте и автоматизируйте!
+    </p>
+</div>
+
+{# Тарифы / Услуги #}
+<div class="row g-4 mb-5">
+
+    <div class="col-md-4">
+        <div class="card custom-card h-100 text-center">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3">
+                    <span class="display-6">📧</span>
+                </div>
+                <h5 class="card-title fw-bold">Сервис рассылок</h5>
+                <h2 class="text-primary fw-bold my-3">$140</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Неограниченная лицензия</li>
+                    <li class="mb-2">✓ Техподдержка</li>
+                    <li class="mb-2">✓ Установка на сервер</li>
+                    <li class="mb-2">✓ Бесплатные обновления</li>
+                </ul>
+                <a href="{% url 'catalog:category_products' 3 %}" class="btn btn-primary btn-sm">
+            Купить
+        </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card custom-card h-100 text-center border-primary">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3 mt-2">
+                    <span class="display-6">🤖</span>
+                </div>
+                <h5 class="card-title fw-bold">Телеграм-боты</h5>
+                <h2 class="text-primary fw-bold my-3">$90</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Готовые сценарии</li>
+                    <li class="mb-2">✓ Поддержка 24/7</li>
+                    <li class="mb-2">✓ Регулярные обновления</li>
+                    <li class="mb-2">✓ Документация</li>
+                </ul>
+                <a href="{% url 'catalog:category_products' 1 %}" class="btn btn-primary btn-sm">
+            Купить
+        </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card custom-card h-100 text-center">
+            <div class="card-body d-flex flex-column p-4">
+                <div class="mb-3">
+                    <span class="display-6">🌐</span>
+                </div>
+                <h5 class="card-title fw-bold">Веб-приложения</h5>
+                <h2 class="text-primary fw-bold my-3">$250</h2>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2">✓ Полный исходный код</li>
+                    <li class="mb-2">✓ Подробная документация</li>
+                    <li class="mb-2">✓ Помощь с деплоем</li>
+                    <li class="mb-2">✓ 30 дней поддержки</li>
+                </ul>
+                <a href="{% url 'catalog:category_products' 2 %}" class="btn btn-primary btn-sm">
+            Купить
+        </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{# Разделитель #}
+<div class="text-center py-5">
+    <h2 class="display-5 fw-bold">Лучшие предложения</h2>
+    <p class="text-muted">Топовые продукты с высшей оценкой</p>
+    <hr class="w-25 mx-auto border-2 border-primary opacity-50">
+</div>
+
+{# Карточки товаров #}
+<div class="row g-4 justify-content-center">
+    {% for product in products %}
+    <div class="col-md-4">
+        <div class="card custom-card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top"
+                     alt="{{ product.name }}"
+                     style="height: 200px; object-fit: cover;">
+            {% else %}
+                <img src="/media/default_images/not_found.png"
+                     class="card-img-top"
+                     alt="Placeholder"
+                     style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title fw-semibold">{{ product.name }}</h5>
+                <p class="card-text text-muted small flex-grow-1">
+                    {{ product.description|truncatechars:100 }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="fs-5 fw-bold text-primary">{{ product.price }} $</span>
+                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <div class="text-muted">
+            <span class="display-1">📦</span>
+            <h4 class="mt-3">Товары скоро появятся</h4>
+            <p>Мы работаем над пополнением каталога</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{# Призыв к действию #}
+<div class="text-center py-5 mt-4">
+    <div class="card custom-card p-5">
+        <h3 class="fw-bold mb-3">Хотите продавать свои продукты?</h3>
+        <p class="text-muted mb-4">Присоединяйтесь к нашей платформе и начните зарабатывать уже сегодня</p>
+        <div>
+            <a href="{% url 'users:register' %}" class="btn btn-primary btn-lg px-5">Начать</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} — Skystore{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="text-center py-5">
+        <h1 class="display-5 fw-bold">{{ category.name }}</h1>
+        <p class="text-muted">{{ category.description }}</p>
+        <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-secondary btn-sm">
+            ← Назад к каталогу
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card custom-card h-100 shadow-sm">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <img src="/media/default_images/not_found.png" class="card-img-top" alt="Placeholder" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text text-muted small">{{ product.description|truncatechars:100 }}</p>
+                    <p class="fw-bold mt-auto">{{ product.price }} $</p>
+                    <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-outline-primary">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">В этой категории пока нет товаров</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
