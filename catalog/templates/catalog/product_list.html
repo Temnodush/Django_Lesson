@@ -24,6 +24,19 @@
         {% endif %}
 
     </div>
+    <div class="card w-75 mb-3 mx-auto text-center border-primary rounded-5 shadow">
+  <div class="card-body">
+    <h5 class="card-title">Категории товаров</h5>
+    <p class="card-text">Выбирайте категории которые подходят под ваши предпочтения.</p>
+    {% for category in categories %}
+        <a href="{% url 'catalog:category_products' category.pk %}" class="btn btn-outline-primary btn-sm">
+            {{ category.name }}
+        </a>
+    {% endfor %}
+  </div>
+</div>
+
+
 
     <div class="row g-4">
         {% for product in products %}

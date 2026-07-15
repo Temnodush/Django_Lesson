@@ -1,11 +1,15 @@
 <nav class="d-flex justify-content-between align-items-center flex-grow-1">
-    {# Левая часть — основное меню #}
+{% load cache %}
+
+<nav class="d-flex justify-content-between align-items-center flex-grow-1">
+    {% cache CACHE_TTL main_menu %}
     <div class="d-flex align-items-center gap-2">
         <a class="btn btn-outline-primary btn-sm" href="{% url 'catalog:home' %}">Главная</a>
         <a class="btn btn-outline-primary btn-sm" href="{% url 'catalog:product_list' %}">Каталог</a>
         <a class="btn btn-outline-primary btn-sm" href="{% url 'catalog:contacts' %}">Контакты</a>
         <a class="btn btn-outline-primary btn-sm" href="{% url 'blogs:blogpost_list' %}">Блог</a>
     </div>
+    {% endcache %}
 
     {# Правая часть — авторизация #}
     <div class="d-flex align-items-center gap-2">
